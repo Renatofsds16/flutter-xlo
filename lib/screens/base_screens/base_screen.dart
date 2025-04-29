@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:xlo/screens/create_screen/create_screen.dart';
+import 'package:xlo/screens/login_screen/login_screen.dart';
 import 'package:xlo/stores/page_stores.dart';
 
 import '../home_screen/home_screen.dart';
@@ -18,22 +21,28 @@ class _BaseScreenState extends State<BaseScreen> {
   @override
   void initState() {
     super.initState();
-    reaction((_)=>_pageStores.page, (page)=> _pageController.jumpToPage(page));
+    autorun((_){
+      _pageController.jumpToPage(_pageStores.page);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        children: [
-          HomeScreen(),
-          Container(color: Colors.white),
-          Container(color: Colors.red),
-          Container(color: Colors.grey),
-          Container(color: Colors.green),
-        ],
+      body: Observer(
+        builder: (_){
+          return PageView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: _pageController,
+            children: [
+              HomeScreen(),
+              CreateScreen(),
+              Container(color: Colors.red),
+              Container(color: Colors.grey),
+              Container(color: Colors.green),
+            ],
+          );
+        },
       ),
     );
   }

@@ -10,5 +10,8 @@ abstract class _PageStores with Store{
   int page = 0;
 
   @action
-  void setPage(int value)=> page = value;
+  void setPage(int value){
+    page = value;
+
+  }
 }
