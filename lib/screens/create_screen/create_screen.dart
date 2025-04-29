@@ -2,10 +2,13 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:xlo/components/custom_drawer/custom_drawer.dart';
-import 'package:xlo/screens/home_screen/components/image_fields.dart';
+
+import '../../stores/create_store.dart';
+import 'components/image_fields.dart';
 
 class CreateScreen extends StatelessWidget {
-  const CreateScreen({super.key});
+  CreateScreen({super.key});
+  final CreateStore _createStore = CreateStore();
 
   @override
   Widget build(BuildContext context) {
@@ -23,53 +26,55 @@ class CreateScreen extends StatelessWidget {
         title: Text('Inserir Anuncio'),
         centerTitle: true,
       ),
-      body: Card(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ImageField(),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Titulo *',
-                  labelStyle: labelStyle,
-                  contentPadding: contentPadding,
+      body: SingleChildScrollView(
+        child: Card(
+          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ImageField(createStore: _createStore),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Titulo *',
+                    labelStyle: labelStyle,
+                    contentPadding: contentPadding,
+                  ),
                 ),
-              ),
-              sizedBox,
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Descricao *',
-                  labelStyle: labelStyle,
-                  contentPadding: contentPadding,
+                sizedBox,
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Descricao *',
+                    labelStyle: labelStyle,
+                    contentPadding: contentPadding,
+                  ),
+                  maxLines: null,
                 ),
-                maxLines: null,
-              ),
-              sizedBox,
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Categoria *',
-                  labelStyle: labelStyle,
-                  contentPadding: contentPadding,
+                sizedBox,
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Categoria *',
+                    labelStyle: labelStyle,
+                    contentPadding: contentPadding,
+                  ),
                 ),
-              ),
-              sizedBox,
-              TextFormField(
-                decoration: InputDecoration(
-                  prefixText: 'R\$ ',
-                  labelText: 'Preço *',
-                  labelStyle: labelStyle,
-                  contentPadding: contentPadding,
+                sizedBox,
+                TextFormField(
+                  decoration: InputDecoration(
+                    prefixText: 'R\$ ',
+                    labelText: 'Preço *',
+                    labelStyle: labelStyle,
+                    contentPadding: contentPadding,
+                  ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    CentavosInputFormatter(moeda: true),
+                  ],
                 ),
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  CentavosInputFormatter(moeda: true),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

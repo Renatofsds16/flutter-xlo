@@ -3,10 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo/screens/create_screen/create_screen.dart';
-import 'package:xlo/screens/login_screen/login_screen.dart';
 import 'package:xlo/stores/page_stores.dart';
 
-import '../home_screen/home_screen.dart';
+import '../category_screen/category_screen.dart';
+
 class BaseScreen extends StatefulWidget {
   BaseScreen({super.key});
 
@@ -21,7 +21,7 @@ class _BaseScreenState extends State<BaseScreen> {
   @override
   void initState() {
     super.initState();
-    autorun((_){
+    autorun((_) {
       _pageController.jumpToPage(_pageStores.page);
     });
   }
@@ -30,12 +30,12 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Observer(
-        builder: (_){
+        builder: (_) {
           return PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
-              HomeScreen(),
+              CategoryScreen(),
               CreateScreen(),
               Container(color: Colors.red),
               Container(color: Colors.grey),

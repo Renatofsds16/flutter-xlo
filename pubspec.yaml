@@ -39,6 +39,8 @@ dependencies:
   flutter_mobx: ^2.3.0
   get_it: ^8.0.3
   brasil_fields: ^1.17.0
+  image_picker: ^1.1.2
+
 
 
 dev_dependencies:
