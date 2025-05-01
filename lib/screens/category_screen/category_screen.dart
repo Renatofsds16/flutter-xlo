@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:xlo/components/error_boxes/error_boxes.dart';
@@ -7,9 +8,9 @@ import 'package:xlo/stores/category_store.dart';
 import '../../models/category.dart';
 
 class CategoryScreen extends StatelessWidget {
-  CategoryScreen({super.key, this.showAll = false});
+  CategoryScreen({super.key, this.showAll = false,required this.categorySelected});
   final CategoryStore _categoryStore = GetIt.I<CategoryStore>();
-  final Category? categorySelected = Category(id: 'lQHjC4Ye7z');
+  final Category? categorySelected;
   final bool showAll;
 
   @override

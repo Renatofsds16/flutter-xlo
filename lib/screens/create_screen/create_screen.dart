@@ -1,9 +1,13 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo/components/custom_drawer/custom_drawer.dart';
+import 'package:xlo/screens/create_screen/components/cep_field.dart';
 
 import '../../stores/create_store.dart';
+import 'components/categore_fileds.dart';
+import 'components/hide_phone_field.dart';
 import 'components/image_fields.dart';
 
 class CreateScreen extends StatelessWidget {
@@ -33,6 +37,7 @@ class CreateScreen extends StatelessWidget {
             padding: EdgeInsets.all(8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ImageField(createStore: _createStore),
                 TextFormField(
@@ -52,13 +57,9 @@ class CreateScreen extends StatelessWidget {
                   maxLines: null,
                 ),
                 sizedBox,
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Categoria *',
-                    labelStyle: labelStyle,
-                    contentPadding: contentPadding,
-                  ),
-                ),
+                CategoryFiled(createStore: _createStore),
+                sizedBox,
+                CepField(),
                 sizedBox,
                 TextFormField(
                   decoration: InputDecoration(
@@ -72,6 +73,23 @@ class CreateScreen extends StatelessWidget {
                     FilteringTextInputFormatter.digitsOnly,
                     CentavosInputFormatter(moeda: true),
                   ],
+                ),
+                HidePhoneField(createStore: _createStore),
+                Observer(
+                  builder: (_) {
+                    return ElevatedButton(
+                      onPressed: null,
+
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple,
+                        disabledBackgroundColor: Colors.purple.withAlpha(50),
+                      ),
+                      child: Text(
+                        'Cadastrar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:xlo/repositories/cep_repository.dart';
 import 'package:xlo/stores/category_store.dart';
 import 'package:xlo/stores/page_stores.dart';
 import 'package:xlo/stores/user_manage_store.dart';
@@ -16,6 +17,8 @@ void setupLocator() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CodesParse.initializeParse();
+  CepRepository().getAdressFromApi('58.108.172').then((value) => print(value));
+
   setupLocator();
   runApp(const MyApp());
 }
