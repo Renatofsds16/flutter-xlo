@@ -19,160 +19,186 @@ class ImageField extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    return Container(
-      color: Colors.grey[200],
-      height: 120,
-      child: Observer(
-        builder: (_) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount:
-                createStore.image.isNotEmpty ? createStore.image.length + 1 : 1,
-            itemBuilder: (_, index) {
-              print('index: $index');
-              if (createStore.image.isNotEmpty) {
-                //depois da foto
+    return Column(
+      children: [
+        Container(
+          color: Colors.grey[200],
+          height: 120,
+          child: Observer(
+            builder: (_) {
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount:
+                    createStore.image.isNotEmpty
+                        ? createStore.image.length + 1
+                        : 1,
+                itemBuilder: (_, index) {
+                  print('index: $index');
+                  if (createStore.image.isNotEmpty) {
+                    //depois da foto
 
-                if (index == createStore.image.length) {
-                  return Padding(
-                    padding: EdgeInsets.all(4),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (Platform.isAndroid) {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (_) {
-                              return ImageSourceModal(
-                                onImageSelected: onImageSelected,
+                    if (index == createStore.image.length) {
+                      return Padding(
+                        padding: EdgeInsets.all(4),
+                        child: GestureDetector(
+                          onTap: () {
+                            if (Platform.isAndroid) {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (_) {
+                                  return ImageSourceModal(
+                                    onImageSelected: onImageSelected,
+                                  );
+                                },
                               );
-                            },
-                          );
-                        } else {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (_) {
-                              return ImageSourceModal(
-                                onImageSelected: onImageSelected,
+                            } else {
+                              showCupertinoModalPopup(
+                                context: context,
+                                builder: (_) {
+                                  return ImageSourceModal(
+                                    onImageSelected: onImageSelected,
+                                  );
+                                },
                               );
-                            },
-                          );
-                        }
-                      },
-                      child: CircleAvatar(
-                        radius: 44,
-                        backgroundColor: Colors.grey[300],
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_a_photo,
-                              size: 35,
-                              color: Colors.white,
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 44,
+                            backgroundColor: Colors.grey[300],
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_a_photo,
+                                  size: 35,
+                                  color: Colors.white,
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                } else {
-                  return Padding(
-                    padding: EdgeInsets.all(4),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (Platform.isAndroid) {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (_) {
-                              return ImageSourceModal(
-                                onImageSelected: onImageSelected,
+                      );
+                    } else {
+                      return Padding(
+                        padding: EdgeInsets.all(4),
+                        child: GestureDetector(
+                          onTap: () {
+                            if (Platform.isAndroid) {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (_) {
+                                  return ImageSourceModal(
+                                    onImageSelected: onImageSelected,
+                                  );
+                                },
+                              );
+                            } else {
+                              showCupertinoModalPopup(
+                                context: context,
+                                builder: (_) {
+                                  return ImageSourceModal(
+                                    onImageSelected: onImageSelected,
+                                  );
+                                },
+                              );
+                            }
+                          },
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return ImageDialog(
+                                    image: createStore.image[index],
+                                    onDelete:
+                                        () => createStore.image.removeAt(index),
+                                  );
+                                },
                               );
                             },
-                          );
-                        } else {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (_) {
-                              return ImageSourceModal(
-                                onImageSelected: onImageSelected,
-                              );
-                            },
-                          );
-                        }
-                      },
+                            child: CircleAvatar(
+                              radius: 44,
+                              backgroundColor: Colors.grey[300],
+                              backgroundImage: FileImage(
+                                createStore.image[index],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(null, size: 35, color: Colors.white),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    return Padding(
+                      padding: EdgeInsets.all(4),
                       child: GestureDetector(
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return ImageDialog(
-                                image: createStore.image[index],
-                                onDelete:
-                                    () => createStore.image.removeAt(index),
-                              );
-                            },
-                          );
+                          if (Platform.isAndroid) {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (_) {
+                                return ImageSourceModal(
+                                  onImageSelected: onImageSelected,
+                                );
+                              },
+                            );
+                          } else {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (_) {
+                                return ImageSourceModal(
+                                  onImageSelected: onImageSelected,
+                                );
+                              },
+                            );
+                          }
                         },
                         child: CircleAvatar(
                           radius: 44,
                           backgroundColor: Colors.grey[300],
-                          backgroundImage: FileImage(createStore.image[index]),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(null, size: 35, color: Colors.white),
+                              Icon(
+                                Icons.add_a_photo,
+                                size: 35,
+                                color: Colors.white,
+                              ),
                             ],
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }
-              } else {
-                return Padding(
-                  padding: EdgeInsets.all(4),
-                  child: GestureDetector(
-                    onTap: () {
-                      if (Platform.isAndroid) {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (_) {
-                            return ImageSourceModal(
-                              onImageSelected: onImageSelected,
-                            );
-                          },
-                        );
-                      } else {
-                        showCupertinoModalPopup(
-                          context: context,
-                          builder: (_) {
-                            return ImageSourceModal(
-                              onImageSelected: onImageSelected,
-                            );
-                          },
-                        );
-                      }
-                    },
-                    child: CircleAvatar(
-                      radius: 44,
-                      backgroundColor: Colors.grey[300],
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add_a_photo,
-                            size: 35,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }
+                    );
+                  }
+                },
+              );
             },
-          );
-        },
-      ),
+          ),
+        ),
+        Observer(
+          builder: (_) {
+            if (createStore.errorMessage != null) {
+              return Container(
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.red)),
+                ),
+                child: Text(
+                  '${createStore.errorMessage}',
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
+      ],
     );
   }
 

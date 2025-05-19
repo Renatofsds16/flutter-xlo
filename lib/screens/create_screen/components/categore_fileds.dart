@@ -12,24 +12,61 @@ class CategoryFiled extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return ListTile(
-          title: Text(
-            'Categoria *',
-            style: TextStyle(fontSize: createStore.category != null ? 14 : 18, fontWeight: FontWeight.w800,color: Colors.grey,),
-          ),
-          subtitle: createStore.category != null ? Text('${createStore.category?.name}',style: TextStyle(color: Colors.black87,fontSize: 17),):null,
-          trailing: Icon(Icons.keyboard_arrow_down),
-          onTap: ()async {
-            final category = await showDialog(
-                context: context, builder: (_)=> CategoryScreen(showAll: false,
-              categorySelected: createStore.category,)
-            ) as Category;
-            if(category != null){
-              createStore.setCategory(category);
-            }
-
-
-          },
+        return Column(
+          children: [
+            //
+            ListTile(
+              title: Text(
+                'Categoria *',
+                style: TextStyle(
+                  fontSize: createStore.category != null ? 14 : 18,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.grey,
+                ),
+              ),
+              subtitle:
+                  createStore.category != null
+                      ? Text(
+                        '${createStore.category?.name}',
+                        style: TextStyle(color: Colors.black87, fontSize: 17),
+                      )
+                      : null,
+              trailing: Icon(Icons.keyboard_arrow_down),
+              onTap: () async {
+                final category =
+                    await showDialog(
+                          context: context,
+                          builder:
+                              (_) => CategoryScreen(
+                                showAll: false,
+                                categorySelected: createStore.category,
+                              ),
+                        )
+                        as Category;
+                if (category != null) {
+                  createStore.setCategory(category);
+                }
+              },
+            ),
+            if (createStore.categoryError != null)
+              Container(
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.red)),
+                ),
+                child: Text(
+                  '${createStore.categoryError}',
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              )
+            else
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.grey)),
+                ),
+              ),
+            //
+          ],
         );
       },
     );

@@ -1,4 +1,3 @@
-
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo/help/extensions.dart';
@@ -11,28 +10,26 @@ part 'signup_store.g.dart';
 
 class SignupStore = _SignupStore with _$SignupStore;
 
-abstract class _SignupStore with Store{
-
+abstract class _SignupStore with Store {
   //campo name
   @observable
   String name = '';
 
   @action
-  void setName(String value)=> name = value;
+  void setName(String value) => name = value;
 
   @computed
   bool get nameIsValid => name.length > 5;
 
   @computed
   String? get nameError {
-    if(name.isEmpty || nameIsValid){
+    if (name.isEmpty || nameIsValid) {
       return null;
-    }else if(name.isEmpty){
+    } else if (name.isEmpty) {
       return 'Este campo e obrigatorio';
-    }else{
+    } else {
       return 'Nome muito curto';
     }
-
   }
 
   //campo email
@@ -40,16 +37,17 @@ abstract class _SignupStore with Store{
   String email = '';
 
   @action
-  void setEmail(String value)=> email = value;
+  void setEmail(String value) => email = value;
 
   @computed
-  String? get emailError{
-    if(email.isEmpty || emailIsValid){
+  String? get emailError {
+    if (email.isEmpty || emailIsValid) {
       return null;
-    }else{
+    } else {
       return 'E-mail invalido';
     }
   }
+
   @computed
   bool get emailIsValid => email.isEmailValid();
 
@@ -58,17 +56,16 @@ abstract class _SignupStore with Store{
   String phone = '';
 
   @action
-  void setPhone(String value)=> phone = value;
+  void setPhone(String value) => phone = value;
 
   @computed
   bool get phoneIsValid => phone.length >= 14;
 
-
   @computed
-  String? get phoneError{
-    if(phone.isEmpty || phoneIsValid){
+  String? get phoneError {
+    if (phone.isEmpty || phoneIsValid) {
       return null;
-    }else{
+    } else {
       return 'Telefone invalido';
     }
   }
@@ -80,44 +77,45 @@ abstract class _SignupStore with Store{
   String password = '';
 
   @action
-  void setPassword(String value)=> password = value;
+  void setPassword(String value) => password = value;
 
   @computed
   bool get passIsValid => password.length >= 6;
 
   @computed
-  String? get passwordError{
-    if(password.isEmpty || passIsValid){
+  String? get passwordError {
+    if (password.isEmpty || passIsValid) {
       return null;
-    }else{
+    } else {
       return 'senha muito curta';
     }
   }
-
-
-
 
   @observable
   String password2 = '';
 
   @action
-  void setPassword2(String value)=> password2 = value;
+  void setPassword2(String value) => password2 = value;
 
   @computed
   bool get pass2IsValid => password2.length >= 6 && password == password2;
 
   @computed
-  String? get password2Error{
-    if(password2.isEmpty || pass2IsValid){
+  String? get password2Error {
+    if (password2.isEmpty || pass2IsValid) {
       return null;
-    }else{
+    } else {
       return 'verifique as senhas';
     }
   }
 
   @computed
-  bool get isFormValid => nameIsValid && emailIsValid && phoneIsValid && passIsValid && pass2IsValid;
-
+  bool get isFormValid =>
+      nameIsValid &&
+      emailIsValid &&
+      phoneIsValid &&
+      passIsValid &&
+      pass2IsValid;
 
   @observable
   bool loading = false;
@@ -126,23 +124,27 @@ abstract class _SignupStore with Store{
   setLoading(bool value) => loading = value;
 
   @action
-  Future<void> signUp()async{
+  Future<void> signUp() async {
     errorParse = null;
     loading = true;
-    final User user = User(name: name,email: email,password1:password,phone: phone);
+    final User user = User(
+      name: name,
+      email: email,
+      password1: password,
+      phone: phone,
+    );
     try {
-      final User userResponse = await UserRepository().signUp(user);
-      GetIt.I<UserManageStore>().setUser(userResponse);
-      if(userResponse.id != null){
-        errorParse = null;
+      final User? userResponse = await UserRepository().signUp(user);
+      if (userResponse != null) {
+        GetIt.I<UserManageStore>().setUser(userResponse);
+        if (userResponse.id != null) {
+          errorParse = null;
+        }
       }
-    }catch (error) {
+    } catch (error) {
       errorParse = error.toString();
     }
 
-        loading = false;
-
-      }
-
-
+    loading = false;
+  }
 }

@@ -1,4 +1,3 @@
-
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo/help/extensions.dart';
@@ -10,7 +9,7 @@ part 'login_store.g.dart';
 
 class LoginStore = _LoginStore with _$LoginStore;
 
-abstract class _LoginStore with Store{
+abstract class _LoginStore with Store {
   @observable
   String email = '';
 
@@ -19,9 +18,9 @@ abstract class _LoginStore with Store{
 
   @computed
   String? get emailError {
-    if(email.isEmpty || emailIsValid){
+    if (email.isEmpty || emailIsValid) {
       return null;
-    }else{
+    } else {
       return 'E-mail invalido';
     }
   }
@@ -43,9 +42,9 @@ abstract class _LoginStore with Store{
 
   @computed
   String? get passwordError {
-    if(email.isEmpty || passwordIsValid){
+    if (email.isEmpty || passwordIsValid) {
       return null;
-    }else{
+    } else {
       return 'verifique sua senha';
     }
   }
@@ -57,18 +56,18 @@ abstract class _LoginStore with Store{
   bool loading = false;
 
   @action
-  Future<void> login()async{
+  Future<void> login() async {
     errorParse = null;
     loading = true;
     try {
-      final User user  = await UserRepository().loginWithEmail(email, password);
-      GetIt.I<UserManageStore>().setUser(user);
-    }catch (erro){
+      final User? user = await UserRepository().loginWithEmail(email, password);
+      if (user != null) {
+        GetIt.I<UserManageStore>().setUser(user);
+      }
+    } catch (erro) {
       errorParse = erro.toString();
     }
 
-
     loading = false;
-
   }
 }

@@ -3,7 +3,7 @@ import 'package:xlo/models/user.dart';
 import 'package:xlo/repositories/parse_erros.dart';
 
 class UserRepository {
-  Future<User> signUp(User user) async {
+  Future<User?> signUp(User user) async {
     final ParseUser parseUser = ParseUser(
       user.email,
       user.password1,
@@ -21,41 +21,48 @@ class UserRepository {
       );
     }
   }
-  Future<User> loginWithEmail(String email,String password)async{
-    final ParseUser parseUser = ParseUser(email,password,null);
+
+  Future<User?> loginWithEmail(String email, String password) async {
+    final ParseUser parseUser = ParseUser(email, password, null);
     final ParseResponse parseResponse = await parseUser.login();
-    if(parseResponse.success){
+    if (parseResponse.success) {
       return mapParseToUser(parseResponse.result);
-    }else{
-      return Future.error(ParseErrors.getDescription(parseResponse.error!.code) as Object);
+    } else {
+      return Future.error(
+        ParseErrors.getDescription(parseResponse.error!.code) as Object,
+      );
     }
   }
-  Future<void> loginWithFacebook(User user)async{
 
+  Future<void> loginWithFacebook(User user) async {}
+
+  User? mapParseToUser(ParseUser? parseUser) {
+    if (parseUser != null) {
+      return User(
+        id: parseUser.objectId,
+        name: parseUser.get('name'),
+        email: parseUser.get('username'),
+        phone: parseUser.get('phone'),
+        type: parseUser.get('type'),
+        createdAt: parseUser.get('createdAt'),
+        sessionToken: parseUser.get('sessionToken'),
+      );
+    }
+    return null;
   }
 
-  User mapParseToUser(ParseUser parseUser) {
-    return User(
-      id: parseUser.objectId,
-      name: parseUser.get('name'),
-      email: parseUser.get('username'),
-      phone: parseUser.get('phone'),
-      type: parseUser.get('type'),
-      createdAt: parseUser.get('createdAt'),
-      sessionToken: parseUser.get('sessionToken'),
-    );
-  }
-  Future<User?> currentUser()async{
+  Future<User?> currentUser() async {
     final ParseUser? parseUser = await ParseUser.currentUser();
-    if(parseUser != null && parseUser.sessionToken != null){
-      final ParseResponse? response = await ParseUser.getCurrentUserFromServer(parseUser.sessionToken!);
-      if(response != null && response.success){
+    if (parseUser != null && parseUser.sessionToken != null) {
+      final ParseResponse? response = await ParseUser.getCurrentUserFromServer(
+        parseUser.sessionToken!,
+      );
+      if (response != null && response.success) {
         return mapParseToUser(response.result);
-      }else{
+      } else {
         await parseUser.logout();
       }
     }
     return null;
-
   }
 }

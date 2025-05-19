@@ -9,23 +9,23 @@ part of 'cep_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CepStore on _CepStore, Store {
-  Computed<String?>? _$clearCepComputed;
+  Computed<String>? _$clearCepComputed;
 
   @override
-  String? get clearCep => (_$clearCepComputed ??=
-          Computed<String?>(() => super.clearCep, name: '_CepStore.clearCep'))
+  String get clearCep => (_$clearCepComputed ??=
+          Computed<String>(() => super.clearCep, name: '_CepStore.clearCep'))
       .value;
 
   late final _$cepAtom = Atom(name: '_CepStore.cep', context: context);
 
   @override
-  String? get cep {
+  String get cep {
     _$cepAtom.reportRead();
     return super.cep;
   }
 
   @override
-  set cep(String? value) {
+  set cep(String value) {
     _$cepAtom.reportWrite(value, super.cep, () {
       super.cep = value;
     });
