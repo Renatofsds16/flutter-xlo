@@ -175,7 +175,8 @@ abstract class _CreateStore with Store {
     );
     loading = true;
     try {
-      savedAd = await AdRepository().save(ad);
+      await AdRepository().save(ad);
+      savedAd = true;
     } catch (e) {
       resultError = e.toString();
     }
@@ -186,7 +187,7 @@ abstract class _CreateStore with Store {
   String? resultError;
 
   @observable
-  Ad? savedAd;
+  bool savedAd = false;
 
   @observable
   bool loading = false;

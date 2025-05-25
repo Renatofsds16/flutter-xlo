@@ -7,7 +7,7 @@ import 'package:xlo/repositories/parse_erros.dart';
 import '../models/ad.dart';
 
 class AdRepository {
-  Future<Ad> save(Ad ad) async {
+  Future<void> save(Ad ad) async {
     try {
       final parseImages = await saveImages(ad.images);
       ParseUser parseUser = ParseUser(
@@ -38,9 +38,7 @@ class AdRepository {
         ParseObject('Category')..set('objectId', ad.category?.id),
       );
       ParseResponse response = await adObject.save();
-      if (response.success) {
-        return Ad.fromParse(response.result);
-      } else {
+      if (!response.success) {
         return Future.error(
           ParseErrors.getDescription(response.error!.code).toString(),
         );

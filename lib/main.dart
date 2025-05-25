@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:xlo/repositories/cep_repository.dart';
 import 'package:xlo/stores/category_store.dart';
+import 'package:xlo/stores/home_store.dart';
 import 'package:xlo/stores/page_stores.dart';
 import 'package:xlo/stores/user_manage_store.dart';
 
@@ -10,6 +11,7 @@ import 'screens/base_screens/base_screen.dart';
 
 void setupLocator() {
   GetIt.I.registerSingleton(PageStores());
+  GetIt.I.registerSingleton(HomeStore());
   GetIt.I.registerSingleton(UserManageStore());
   GetIt.I.registerSingleton(CategoryStore());
 }
@@ -34,6 +36,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.purple,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.purple,
+          foregroundColor: Colors.white,
+        ),
         primaryColor: Colors.purple,
       ),
       home: BaseScreen(),

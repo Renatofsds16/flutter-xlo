@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:xlo/components/error_boxes/error_boxes.dart';
@@ -8,7 +7,7 @@ import 'package:xlo/stores/category_store.dart';
 import '../../models/category.dart';
 
 class CategoryScreen extends StatelessWidget {
-  CategoryScreen({super.key, this.showAll = false,required this.categorySelected});
+  CategoryScreen({super.key, this.showAll = false, this.categorySelected});
   final CategoryStore _categoryStore = GetIt.I<CategoryStore>();
   final Category? categorySelected;
   final bool showAll;
@@ -32,6 +31,7 @@ class CategoryScreen extends StatelessWidget {
                 return CircularProgressIndicator(color: Colors.white);
               } else {
                 return ListView.separated(
+                  shrinkWrap: true,
                   itemBuilder: (_, index) {
                     final category =
                         showAll

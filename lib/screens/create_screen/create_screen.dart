@@ -27,7 +27,7 @@ class _CreateScreenState extends State<CreateScreen> {
   @override
   void initState() {
     super.initState();
-    when((_) => _createStore.savedAd != null, () {
+    when((_) => _createStore.savedAd, () {
       GetIt.I<PageStores>().setPage(0);
     });
   }
