@@ -9,6 +9,9 @@ import '../../components/error_boxes/error_boxes.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final LoginStore _loginStore = LoginStore();
+  final TextEditingController _controller = TextEditingController(
+    text: 'renatofss16@gamil.com',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +32,20 @@ class LoginScreen extends StatelessWidget {
             child: ListView(
               shrinkWrap: true,
               children: [
-                Observer(builder: (_){
-                  return ErrorBoxes(message: _loginStore.errorParse,);
-                }),
-                ElevatedButton(onPressed: (){},style: ElevatedButton.styleFrom(backgroundColor: Colors.blue), child: Text('Facebook',style: TextStyle(color: Colors.white),),),
-                SizedBox(height: 16,),
+                Observer(
+                  builder: (_) {
+                    return ErrorBoxes(message: _loginStore.errorParse);
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  child: Text(
+                    'Facebook',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(child: Divider(color: Colors.grey)),
@@ -41,12 +53,11 @@ class LoginScreen extends StatelessWidget {
                       'Ou',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.grey[900]),
-
                     ),
-                    Expanded(child: Divider(color: Colors.grey))
+                    Expanded(child: Divider(color: Colors.grey)),
                   ],
                 ),
-                SizedBox(height: 16,),
+                SizedBox(height: 16),
                 Text(
                   'Acessar com E-mail',
                   textAlign: TextAlign.center,
@@ -57,19 +68,22 @@ class LoginScreen extends StatelessWidget {
                   textAlign: TextAlign.start,
                   style: TextStyle(fontSize: 16, color: Colors.grey[900]),
                 ),
-                Observer(builder: (_){
-                  return                 TextField(
-                    onChanged: _loginStore.setEmail,
-                    enabled: !_loginStore.loading,
-                    decoration: InputDecoration(
-                      errorText: _loginStore.emailError,
-                      label: Text('E-mail'),
-                      border: const OutlineInputBorder(),
-                      isDense: true,
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                  );
-                }),
+                Observer(
+                  builder: (_) {
+                    return TextField(
+                      controller: _controller,
+                      onChanged: _loginStore.setEmail,
+                      enabled: !_loginStore.loading,
+                      decoration: InputDecoration(
+                        errorText: _loginStore.emailError,
+                        label: Text('E-mail'),
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                    );
+                  },
+                ),
                 SizedBox(height: 16),
                 Row(
                   children: [
@@ -91,31 +105,44 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 16),
-                Observer(builder: (_){
-                  return TextField(
-                    enabled: !_loginStore.loading,
-                    onChanged: _loginStore.setPassword,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      errorText: _loginStore.passwordError,
-                      label: Text('password'),
-                      border: const OutlineInputBorder(),
-                      isDense: true,
-                    ),
-                    keyboardType: TextInputType.text,
-                  );
-                }),
+                Observer(
+                  builder: (_) {
+                    return TextField(
+                      enabled: !_loginStore.loading,
+                      onChanged: _loginStore.setPassword,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        errorText: _loginStore.passwordError,
+                        label: Text('password'),
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                      keyboardType: TextInputType.text,
+                    );
+                  },
+                ),
                 SizedBox(height: 16),
-                Observer(builder: (_){
-                  return ElevatedButton(
-                    onPressed: (_loginStore.isFormValid && !_loginStore.loading)? _loginStore.login :null,
+                Observer(
+                  builder: (_) {
+                    return ElevatedButton(
+                      onPressed:
+                          (_loginStore.isFormValid && !_loginStore.loading)
+                              ? _loginStore.login
+                              : null,
 
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple,
-                    ),
-                    child: _loginStore.loading? CircularProgressIndicator(color: Colors.white,):Text('Entrar', style: TextStyle(color: Colors.white)),
-                  );
-                }),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple,
+                      ),
+                      child:
+                          _loginStore.loading
+                              ? CircularProgressIndicator(color: Colors.white)
+                              : Text(
+                                'Entrar',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                    );
+                  },
+                ),
                 SizedBox(height: 16),
                 Divider(color: Colors.grey),
                 Row(

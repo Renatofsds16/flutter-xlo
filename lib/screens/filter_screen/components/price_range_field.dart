@@ -25,7 +25,7 @@ class PriceRangeField extends StatelessWidget {
             PriceField(
               label: 'Preço Max',
               onChange: filterStore.setMaxPrice,
-              initialValue: filterStore.minPrice,
+              initialValue: filterStore.maxPrice,
             ),
           ],
         ),

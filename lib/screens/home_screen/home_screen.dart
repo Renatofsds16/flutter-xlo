@@ -4,6 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:xlo/stores/home_store.dart';
 
 import '../../components/custom_drawer/custom_drawer.dart';
+import '../../models/ad.dart';
+import 'components/ad_tile.dart';
 import 'components/search_dialog.dart';
 import 'components/top_bar.dart';
 
@@ -70,7 +72,68 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(children: [TopBar()]),
+      body: Column(
+        children: [
+          TopBar(),
+          Expanded(
+            child: Observer(
+              builder: (_) {
+                if (homeStore.error != null) {
+                  return onErrorOrEmpty(false);
+                }
+                if (homeStore.loading) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(color: Colors.white),
+                        SizedBox(height: 8),
+                        Text(
+                          'Carregando...',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                if (homeStore.adList[0].isEmpty) {
+                  return onErrorOrEmpty(true);
+                }
+                return ListView.builder(
+                  itemCount: homeStore.adList[0].length,
+                  itemBuilder: (context, index) {
+                    Ad item = homeStore.adList[0][index];
+                    return AdTile(ad: item);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget onErrorOrEmpty(bool empty) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          empty ? Icons.border_clear : Icons.error,
+          color: Colors.white,
+          size: 100,
+        ),
+        SizedBox(height: 8),
+        Text(
+          empty ? 'Humm... Nenhum anuncio encontrado' : 'Ocorreu um erro!',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
     );
   }
 }
