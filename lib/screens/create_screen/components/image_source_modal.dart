@@ -25,11 +25,18 @@ class ImageSourceModal extends StatelessWidget {
                 child: Text('Camera'),
               ),
               ElevatedButton(
-                onPressed: () {
-                  getPhoto(false);
+                onPressed: () async {
+                  final XFile? file = await ImagePicker().pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  if (file != null) {
+                    File image = File(file.path);
+                    onImageSelected(image);
+                  }
                 },
                 child: Text('Galeria'),
               ),
+              SizedBox(height: 50),
             ],
           );
         },

@@ -16,10 +16,13 @@ abstract class _HomeStore with Store {
         final newAds = await AdRepository().getHomeAdList(
           filter: filter,
           search: search,
+          page: page,
           category: category,
         );
+
         adList.clear();
         adList.add(newAds);
+
         setError(null);
         setLoading(false);
       } catch (e) {
@@ -37,10 +40,14 @@ abstract class _HomeStore with Store {
   Category? category;
 
   @action
-  setCategory(Category? value) => category = value;
+  setCategory(Category? value) {
+    category = value;
+  }
 
   @action
-  setSearch(String value) => search = value;
+  setSearch(String value) {
+    search = value;
+  }
 
   @observable
   FilterStore filter = FilterStore();
@@ -48,7 +55,12 @@ abstract class _HomeStore with Store {
   FilterStore get cloneFilter => filter.clone();
 
   @action
-  void setFilter(FilterStore value) => filter = value;
+  void setFilter(FilterStore value) {
+    filter = value;
+  }
+
+  @computed
+  int get itemCount => adList.length + 1;
 
   @observable
   String? error;
@@ -61,4 +73,12 @@ abstract class _HomeStore with Store {
 
   @action
   void setLoading(bool value) => loading = value;
+
+  @observable
+  int page = 0;
+
+  @action
+  setPage() {
+    page++;
+  }
 }

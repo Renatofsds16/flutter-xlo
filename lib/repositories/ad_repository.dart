@@ -12,11 +12,13 @@ class AdRepository {
   Future<List<Ad>> getHomeAdList({
     required FilterStore filter,
     required String? search,
+    required int page,
     category,
   }) async {
     final queryBuilder = QueryBuilder<ParseObject>(ParseObject('Ad'));
     queryBuilder.includeObject(['user', 'category']);
-    queryBuilder.setLimit(20);
+    /*queryBuilder.setAmountToSkip(page * 5);
+    queryBuilder.setLimit(5);*/
     queryBuilder.whereEqualTo('status', AdStatus.ACTIVE.index);
     if (search != null && search.trim().isNotEmpty) {
       queryBuilder.whereContains('title', search, caseSensitive: false);

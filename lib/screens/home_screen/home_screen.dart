@@ -96,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   );
                 }
-                if (homeStore.adList[0].isEmpty) {
+                if (homeStore.adList.isEmpty || homeStore.adList[0].isEmpty) {
                   return onErrorOrEmpty(true);
                 }
                 return ListView.builder(

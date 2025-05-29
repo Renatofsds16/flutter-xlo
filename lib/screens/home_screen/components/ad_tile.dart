@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:xlo/models/ad.dart';
 
 class AdTile extends StatelessWidget {
@@ -20,7 +22,13 @@ class AdTile extends StatelessWidget {
               SizedBox(
                 height: 135,
                 width: 127,
-                child: Image.network(ad?.images?.first, fit: BoxFit.cover),
+                child: CachedNetworkImage(
+                  imageUrl:
+                      ad?.images == null && ad?.images?.first == null
+                          ? 'https://static.thenounproject.com/png/194055-200.png'
+                          : ad?.images?.first,
+                  fit: BoxFit.cover,
+                ),
               ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -36,6 +44,10 @@ class AdTile extends StatelessWidget {
                     'R\$ ${ad?.price?.toStringAsFixed(2)}',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
+                  Text(
+                    formatedDate(ad?.created),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  ),
 
                   Text(
                     '${ad?.address?.city?.name} -'
@@ -48,5 +60,13 @@ class AdTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatedDate(DateTime? data) {
+    String dateFormat = '';
+    if (data != null) {
+      dateFormat = DateFormat('dd/MM/yyyy HH:mm').format(data);
+    }
+    return dateFormat;
   }
 }
